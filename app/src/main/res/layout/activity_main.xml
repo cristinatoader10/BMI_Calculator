@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/main"
-    android:gravity="center_horizontal"
-    android:paddingTop="72dp">
+    android:gravity="center"
+    >
 
     <ImageView
-        android:layout_marginTop="72dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="207dp"
+        android:layout_height="141dp"
         android:layout_margin="8dp"
         android:src="@drawable/image_measure" />
 
@@ -18,7 +17,8 @@
         android:layout_margin="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BMI Calculator"/>
+        android:text="BMI Calculator"
+        android:textSize="27dp"/>
     
     <RadioGroup
         android:layout_margin="8dp"
@@ -29,12 +29,14 @@
             android:id="@+id/radio_button_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Male"
+            android:textSize="16dp"/>
         <RadioButton
             android:id="@+id/radio_button_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Female"
+            android:textSize="16dp"/>/>
     </RadioGroup>
     <EditText
         android:id="@+id/age"
