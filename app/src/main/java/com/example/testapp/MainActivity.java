@@ -1,5 +1,6 @@
 package com.example.testapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String UNDERWEIGHT = "Underweight";
+    public static final String NORMAL = "Normal";
+    public static final String OVERWEIGHT = "Overweight";
+    public static final String OBESE = "Obese";
     private Button calculateButton;
     private RadioButton radioButtonMale, radioButtonFemale;
     private EditText ageEditText, heightEditText, weightEditText;
@@ -87,18 +92,32 @@ public class MainActivity extends AppCompatActivity {
     private void displayBMIResult(float bmi) {
         String verdict = getVerdict(bmi);
         this.resultTextView.setText("BMI: " + String.format("%.2f", bmi) + "\n"+ "You are " + verdict);
-
+        // set color depending on verdict
+        switch (verdict) {
+            case UNDERWEIGHT:
+                this.resultTextView.setTextColor(Color.parseColor("#1E90FF")); // blue-ish
+                break;
+            case NORMAL:
+                this.resultTextView.setTextColor(Color.parseColor("#228B22")); // green
+                break;
+            case OVERWEIGHT:
+                this.resultTextView.setTextColor(Color.parseColor("#FFA500")); // orange
+                break;
+            case OBESE:
+                this.resultTextView.setTextColor(Color.RED);
+                break;
+        }
     }
 
     private String getVerdict(float bmi) {
         if (bmi < 18.5) {
-            verdict = "Underweight";
+            verdict = UNDERWEIGHT;
         } else if (bmi < 25) {
-            verdict = "Normal";
+            verdict = NORMAL;
         } else if (bmi < 30) {
-           verdict = "Overweight";
+           verdict = OVERWEIGHT;
         } else {
-            verdict = "Obese";
+            verdict = OBESE;
         }
         return verdict;
     }
