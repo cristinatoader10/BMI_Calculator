@@ -99,13 +99,21 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             // int age = Integer.parseInt(ageStr); // Age is not used in BMI calculation directly, but good to parse if needed elsewhere
-            float heightCm = Float.parseFloat(heightStr);
-            float weightKg = Float.parseFloat(weightStr);
+            float height = Float.parseFloat(heightStr);
+            float weight = Float.parseFloat(weightStr);
+            float heightCm = 0, weightKg=0;
 
             // Check for valid height and weight
-            if (heightCm <= 0 || weightKg <= 0) {
+            if (height <= 0 || weight <= 0) {
                 Toast.makeText(this, "Height and Weight must be positive values", Toast.LENGTH_SHORT).show();
                 return;
+            }
+            if (unitSwitch.isChecked()) {
+                heightCm = height * 2.54f;        // inches → cm
+                weightKg = weight * 0.453592f;
+            }else{
+                heightCm = height;
+                weightKg = weight;
             }
 
             // Convert height from cm to meters
