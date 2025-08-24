@@ -49,6 +49,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
+        <Switch
+            android:id="@+id/unitSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          />
         <EditText
             android:id="@+id/height"
             android:inputType="number"
@@ -62,6 +67,7 @@
             android:layout_height="wrap_content"
             android:hint="Weight (kg)"
             android:inputType="number"/>
+
     </LinearLayout>
     <Button
         android:id="@+id/calculate_button"

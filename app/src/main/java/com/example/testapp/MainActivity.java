@@ -2,14 +2,19 @@ package com.example.testapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText ageEditText, heightEditText, weightEditText;
     private TextView resultTextView;
     private String verdict;
+    private Switch unitSwitch;
+
+    private final Handler tipHandler = new Handler(Looper.getMainLooper());
+    private final Runnable tipRunnable = () -> {
+        Toast toast = Toast.makeText(this,
+                "Tip: use the switch to change the metric system.",
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
+        toast.show();
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +52,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Show toast after 5 seconds
+        tipHandler.postDelayed(tipRunnable, 3000);
         findViews();
-        setupClickListener();
+        setupListeners();
     }
+
     private void findViews() {
         radioButtonMale = findViewById(R.id.radio_button_male);
         radioButtonFemale = findViewById(R.id.radio_button_female);
@@ -48,8 +66,20 @@ public class MainActivity extends AppCompatActivity {
         weightEditText = findViewById(R.id.weight);
         calculateButton = findViewById(R.id.calculate_button);
         resultTextView = findViewById(R.id.result);
+        unitSwitch = findViewById(R.id.unitSwitch);
     }
-    private void setupClickListener() {
+
+    private void setupListeners() {
+        unitSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                heightEditText.setHint("Height (in)");
+                weightEditText.setHint("Weight (lbs)");
+            } else {
+                heightEditText.setHint("Height (cm)");
+                weightEditText.setHint("Weight (kg)");
+            }
+        });
+
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayBMIResult(float bmi) {
         String verdict = getVerdict(bmi);
-        this.resultTextView.setText("BMI: " + String.format("%.2f", bmi) + "\n"+ "You are " + verdict);
+        this.resultTextView.setText("BMI: " + String.format("%.2f", bmi) + "\n" + "You are " + verdict);
         // set color depending on verdict
         switch (verdict) {
             case UNDERWEIGHT:
@@ -115,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (bmi < 25) {
             verdict = NORMAL;
         } else if (bmi < 30) {
-           verdict = OVERWEIGHT;
+            verdict = OVERWEIGHT;
         } else {
             verdict = OBESE;
         }
